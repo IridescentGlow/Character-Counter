@@ -53,10 +53,10 @@ export default function CharacterCounter() {
 
   return (
     <div className="max-w-md mx-auto text-center text-white p-5">
-      <h2 className="text-xl font-bold">Character Counter</h2>
+      <h2 className="text-3xl font-bold mt-10">Character Counter</h2>
 
       <textarea
-        className="w-full h-36 p-3 mt-3 text-lg rounded-lg border-none outline-none bg-gray-800 text-white resize-none transition focus:ring-2 focus:ring-cyan-500"
+        className="w-full h-36 p-3 mt-10 text-lg rounded-lg border-none outline-none bg-gray-800 text-white resize-none transition focus:ring-2 focus:ring-cyan-500"
         maxLength={MAX_CHARS}
         placeholder="Type something..."
         value={state.text}
