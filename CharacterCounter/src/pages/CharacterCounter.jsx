@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo, useCallback, useReducer } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons'
 
-// Constants
 const MAX_CHARS = 200;
 
 const reducer = (state, action) => {
@@ -80,6 +81,7 @@ export default function CharacterCounter() {
           className="px-4 py-2 bg-cyan-500 hover:bg-cyan-600 text-white rounded-lg transition"
           onClick={() => dispatch({ type: "TO_UPPERCASE" })}
         >
+          <FontAwesomeIcon className="icon" icon={faArrowUp} />
           TO UPPERCASE
         </button>
 
@@ -87,6 +89,7 @@ export default function CharacterCounter() {
           className="px-4 py-2 bg-cyan-500 hover:bg-cyan-600 text-white rounded-lg transition"
           onClick={() => dispatch({ type: "TO_LOWERCASE" })}
         >
+          <FontAwesomeIcon className="icon" icon={faArrowDown} />
           to lowercase
         </button>
       </div>
