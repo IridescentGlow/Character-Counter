@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 body {
+  font-family: 'Poppins';
   background: url('./assets/Background.jpg') no-repeat;
   background-size: cover;
 }
