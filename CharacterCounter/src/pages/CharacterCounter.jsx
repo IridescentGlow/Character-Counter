@@ -1,10 +1,8 @@
-import { useMemo, useCallback, useReducer } from "react";
-// import './styles/CharacterCounter.css'
+import { useState, useEffect, useMemo, useCallback, useReducer } from "react";
 
-// Define max character limit
+// Constants
 const MAX_CHARS = 200;
 
-// Reducer function for managing character state
 const reducer = (state, action) => {
   switch (action.type) {
     case "SET_TEXT":
@@ -18,7 +16,6 @@ const reducer = (state, action) => {
   }
 };
 
-// Custom hook for handling character count
 function useCharacterCount() {
   const [state, dispatch] = useReducer(reducer, { text: "", count: 0 });
 
@@ -31,10 +28,10 @@ function useCharacterCount() {
   return { state, dispatch, handleChange };
 }
 
-// Main React Component
 export default function CharacterCounter() {
   const { state, dispatch, handleChange } = useCharacterCount();
-  
+  const [warning, setWarning] = useState("");
+
   const progressPercentage = useMemo(() => (state.count / MAX_CHARS) * 100, [state.count]);
 
   const progressColor = useMemo(() => {
@@ -43,23 +40,34 @@ export default function CharacterCounter() {
     return "bg-cyan-500";
   }, [progressPercentage]);
 
+  useEffect(() => {
+    if (progressPercentage >= 90 && progressPercentage < 100) {
+      setWarning("⚠️ You're close to the limit!");
+    } else if (progressPercentage >= 100) {
+      setWarning("❌ Maximum limit reached!");
+    } else {
+      setWarning("");
+    }
+  }, [progressPercentage]);
+
   return (
     <div className="max-w-md mx-auto text-center text-white p-5">
-      <h2 className="text-xl font-bold font-size-50">Character Counter</h2>
-      
+      <h2 className="text-xl font-bold">Character Counter</h2>
+
       <textarea
-        className="w-full h-50 p-3 mt-3 text-lg rounded-lg border-none outline-none bg-gray-800 text-white resize-none transition focus:ring-2 focus:ring-cyan-500"
+        className="w-full h-36 p-3 mt-3 text-lg rounded-lg border-none outline-none bg-gray-800 text-white resize-none transition focus:ring-2 focus:ring-cyan-500"
         maxLength={MAX_CHARS}
         placeholder="Type something..."
         value={state.text}
         onChange={handleChange}
       />
-      
+
       <div className={`mt-2 text-lg font-semibold ${progressPercentage >= 100 ? "text-red-500" : progressPercentage >= 90 ? "text-orange-400" : ""}`}>
         {state.count} / {MAX_CHARS}
       </div>
 
-      {/* Progress Bar */}
+      {warning && <p className="mt-1 text-orange-400">{warning}</p>}
+
       <div className="w-full h-3 bg-gray-700 rounded-full mt-2 overflow-hidden">
         <div
           className={`h-full transition-all ${progressColor}`}
@@ -68,14 +76,14 @@ export default function CharacterCounter() {
       </div>
 
       <div className="flex justify-center gap-4 mt-4">
-        <button 
+        <button
           className="px-4 py-2 bg-cyan-500 hover:bg-cyan-600 text-white rounded-lg transition"
           onClick={() => dispatch({ type: "TO_UPPERCASE" })}
         >
           TO UPPERCASE
         </button>
-        
-        <button 
+
+        <button
           className="px-4 py-2 bg-cyan-500 hover:bg-cyan-600 text-white rounded-lg transition"
           onClick={() => dispatch({ type: "TO_LOWERCASE" })}
         >
